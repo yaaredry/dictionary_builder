@@ -1,4 +1,4 @@
-require_relative 'my_dictionary_builder'
+require_relative 'WordCountParser'
 
 my_parser = WordCountParser.new("books/")
 
