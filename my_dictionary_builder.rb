@@ -1,4 +1,4 @@
-  # WordCountParser accepts a directory path contains .txt files and form a word-count dictionary
+  # WordCountParser - the constructor accepts a directory path contains .txt files and form a word-count dictionary
   # num_of_books - the number of .txt files in the directory
   # names - array consists of the .txt files names in the directory
   # WORDS_COUNT - word count dictionary
