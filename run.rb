@@ -1,11 +1,9 @@
 require_relative 'my_dictionary_builder'
 
-books = BooksCollection.new("books/")
-books.form_array()
-#books.print_names();
+my_parser = WordCountParser.new("books/")
 
-books.form_dictionary()
+my_parser.form_dictionary()
 
-books.sort_by_value()
-books.print_words_count()
+my_parser.sort_by("key")
+my_parser.print_dictionary_to_file()
 

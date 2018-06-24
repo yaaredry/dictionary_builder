@@ -1,26 +1,56 @@
-
-class BooksCollection
+  # WordCountParser accepts a directory path contains .txt files and form a word-count dictionary
+  # num_of_books - the number of .txt files in the directory
+  # names - array consists of the .txt files names in the directory
+  # WORDS_COUNT - word count dictionary
+  
+class WordCountParser
    @@num_of_books = 0
    @@names = Array.new
    @@WORDS_COUNT = {}
+   
    def initialize(dir_path)
       @dir_path = dir_path
    end
    
-   def form_array()
-       Dir.foreach(@dir_path){|file|
-        next if file == '.' or file == '..'
-        @@names << file
-        @@num_of_books +=1
-      }
-   end
    
    def form_dictionary()
-      @@names.each { |x| index_one_book(x) }
+      Dir.foreach(@dir_path){|file|
+         next if file == '.' or file == '..'
+         @@names << file
+         @@num_of_books +=1
+         }
+      @@names.each { |x| index_one(x) }
+   end
+   
+   def print_dictionary_to_file()
+      #old_stdout = $stdout
+      File.open("words_count_dictionary.txt", 'w') { |file|
+         @@WORDS_COUNT.each do |key, value|
+            file.puts( key + ' : ' + value.to_s)
+            end
+         }
    end
    
    
-   def index_one_book(book_name)
+  # Sort by "key" or "value"
+  # Params:
+  # +entity+:: can be either "key" or "value"
+   def sort_by(entity)
+      case entity
+      when "value"
+         @@WORDS_COUNT = @@WORDS_COUNT.sort_by {|a,b| b}
+      when "key"
+         @@WORDS_COUNT = @@WORDS_COUNT.sort_by {|a,b| a}
+      end
+   end
+   
+private
+
+
+  # Indexes a file to the dicationary (in this case: book)
+  # Params:
+  # +book_name+:: .txt file path in the directory path
+   def index_one(book_name)
       
       file = File.open( @dir_path+book_name, "r") 
       
@@ -29,7 +59,8 @@ class BooksCollection
       file.each_line do |line|
         words = line.split 
         words.each do |word|
-          word = word.gsub(/[,()'"]/,'')
+          #word = word.gsub(/[^a-zA-Z0-9-]+/i, "").downcase
+          word = word.gsub(/[;.""...,()?!]+/i, "").downcase
           if @@WORDS_COUNT[word]
             @@WORDS_COUNT[word] += 1
           else
@@ -41,29 +72,6 @@ class BooksCollection
       puts "Indexed #{book_name}"
    end
    
-   
-   def toString()
-     puts (@num_of_books)
-     puts @names
-   end
-   def print_path()
-     puts (@dir_path)
-   end
-   
-   def print_names()
-   puts ("size:" +@@num_of_books.to_s)
-     puts (@@names)
-   end
-   
-    def print_words_count()
-       @@WORDS_COUNT.each do |key, value|
-          puts key + ' : ' + value.to_s
-          end
-   end
-   
-def sort_by_value()
-   @@WORDS_COUNT.sort_by {|a,b| b}
-end
 
 end
 
