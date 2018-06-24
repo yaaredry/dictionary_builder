@@ -22,9 +22,13 @@ class WordCountParser
       @@names.each { |x| index_one(x) }
    end
    
-   def print_dictionary_to_file()
+   
+  # Print dicationary to file
+  # Params:
+  # +file_name+:: output file name
+   def print_dictionary_to_file(file_name)
       #old_stdout = $stdout
-      File.open("words_count_dictionary.txt", 'w') { |file|
+      File.open(file_name, 'w') { |file|
          @@WORDS_COUNT.each do |key, value|
             file.puts( key + ' : ' + value.to_s)
             end
